@@ -3,17 +3,17 @@
     <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo" />
     <!-- two way binding -->
     <!-- <button @:click="addTodo">add</button> -->
-    <span class="addContainer" @:click="addTodo">
+    <span class="addContainer" v-on:click="addTodo">
       <i class="fa-solid fa-plus addBtn"></i>
     </span>
     <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
 
     <!-- use the modal component, pass in the prop -->
-    <AlertModal v-if="showModal" @close="showModal = false">
+    <AlertModal v-if="showModal" v-on:close="showModal = false">
       <template v-slot:header>
         <h3>
           경고! 
-          <span @click="showModal = false"><i class="fas fa-times closeModalBtn"></i></span>
+          <span v-on:click="showModal = false"><i class="fas fa-times closeModalBtn"></i></span>
         </h3>
       </template>
       <template v-slot:body> 아무것도 입력하지 않으셨습니다. </template>
@@ -34,7 +34,8 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem !== "") {
-        this.$emit("addTodoItem", this.newTodoItem);
+        const text = this.newTodoItem.trim();
+        this.$store.commit('addOneItem',text);
         this.clearInput();
       } else {
         // alert('type sth')
